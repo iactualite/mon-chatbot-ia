@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assistant IA Virtuel</title>
+    <title>Assistant IA - IActualité</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,8 +13,8 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -22,76 +23,123 @@
         }
 
         .chatbot-container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             width: 100%;
-            max-width: 800px;
-            height: 600px;
+            max-width: 900px;
+            height: 700px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            border: 1px solid #e2e8f0;
         }
 
         .chatbot-header {
-            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%);
             color: white;
-            padding: 20px;
-            text-align: center;
+            padding: 24px;
             position: relative;
+            overflow: hidden;
+        }
+
+        .chatbot-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
         }
 
         .chatbot-header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 1.5rem;
-            margin-bottom: 5px;
+            backdrop-filter: blur(10px);
         }
 
         .chatbot-header p {
-            opacity: 0.9;
-            font-size: 0.9rem;
+            opacity: 0.95;
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 20px;
         }
 
         .level-selector {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
-            margin-top: 15px;
+            flex-wrap: wrap;
         }
 
         .level-btn {
-            padding: 8px 16px;
+            padding: 12px 20px;
             border: 2px solid rgba(255,255,255,0.3);
             background: rgba(255,255,255,0.1);
             color: white;
             border-radius: 20px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 0.8rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .level-btn.active {
-            background: white;
-            color: #4f46e5;
-            border-color: white;
+            background: rgba(255,255,255,0.95);
+            color: #1d4ed8;
+            border-color: rgba(255,255,255,0.95);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
 
-        .level-btn:hover {
+        .level-btn:hover:not(.active) {
             background: rgba(255,255,255,0.2);
+            transform: translateY(-1px);
         }
 
         .chat-messages {
             flex: 1;
-            padding: 20px;
+            padding: 24px;
             overflow-y: auto;
             background: #f8fafc;
+            background-image: 
+                radial-gradient(circle at 25px 25px, rgba(59, 130, 246, 0.03) 2px, transparent 0),
+                radial-gradient(circle at 75px 75px, rgba(29, 78, 216, 0.03) 2px, transparent 0);
+            background-size: 100px 100px;
         }
 
         .message {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             align-items: flex-start;
-            gap: 10px;
-            animation: fadeIn 0.3s ease;
+            gap: 16px;
+            animation: fadeInUp 0.4s ease;
         }
 
         .message.user {
@@ -99,105 +147,163 @@
         }
 
         .message-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .bot-avatar {
-            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
         }
 
         .user-avatar {
-            background: linear-gradient(45deg, #06b6d4, #3b82f6);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
         }
 
         .message-content {
-            max-width: 70%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            line-height: 1.4;
+            max-width: 75%;
+            padding: 16px 20px;
+            border-radius: 20px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            position: relative;
         }
 
         .bot-message {
             background: white;
             border: 1px solid #e2e8f0;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            color: #1f2937;
+        }
+
+        .bot-message::before {
+            content: '';
+            position: absolute;
+            left: -8px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 8px 8px 0;
+            border-color: transparent white transparent transparent;
         }
 
         .user-message {
-            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
+            font-weight: 500;
+        }
+
+        .user-message::before {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: 20px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 0 8px 8px;
+            border-color: transparent transparent transparent #3b82f6;
         }
 
         .chat-input-container {
-            padding: 20px;
+            padding: 24px;
             background: white;
             border-top: 1px solid #e2e8f0;
             display: flex;
-            gap: 10px;
+            gap: 16px;
+            align-items: flex-end;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
         }
 
         .chat-input {
-            flex: 1;
-            padding: 12px 16px;
+            width: 100%;
+            padding: 16px 20px;
             border: 2px solid #e2e8f0;
-            border-radius: 25px;
+            border-radius: 24px;
             outline: none;
             font-size: 1rem;
-            transition: border-color 0.3s ease;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            resize: none;
+            min-height: 24px;
+            max-height: 120px;
         }
 
         .chat-input:focus {
-            border-color: #4f46e5;
+            border-color: #3b82f6;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .send-btn {
-            padding: 12px 20px;
-            background: linear-gradient(45deg, #4f46e5, #7c3aed);
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
             border: none;
-            border-radius: 25px;
+            border-radius: 24px;
             cursor: pointer;
             font-weight: 600;
-            transition: transform 0.2s ease;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
-        .send-btn:hover {
+        .send-btn:hover:not(:disabled) {
             transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
         }
 
         .send-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: not-allowed;
             transform: none;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
         }
 
         .typing-indicator {
             display: none;
             align-items: center;
-            gap: 5px;
+            gap: 16px;
+            padding: 0 24px 20px;
+            background: #f8fafc;
+        }
+
+        .typing-content {
+            display: flex;
+            align-items: center;
+            gap: 12px;
             color: #64748b;
             font-style: italic;
-            padding: 10px 0;
+            font-weight: 500;
         }
 
         .typing-dots {
             display: flex;
-            gap: 3px;
+            gap: 4px;
         }
 
         .typing-dot {
-            width: 6px;
-            height: 6px;
-            background: #64748b;
+            width: 8px;
+            height: 8px;
+            background: #3b82f6;
             border-radius: 50%;
             animation: typingDots 1.4s infinite;
         }
@@ -213,92 +319,216 @@
         .suggestions {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 15px;
+            gap: 10px;
+            margin-top: 16px;
         }
 
         .suggestion-btn {
-            padding: 8px 12px;
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            border-radius: 15px;
+            padding: 10px 16px;
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+            border: 1px solid #cbd5e1;
+            border-radius: 18px;
             cursor: pointer;
             font-size: 0.85rem;
+            font-weight: 500;
             transition: all 0.3s ease;
             color: #475569;
         }
 
         .suggestion-btn:hover {
-            background: #e2e8f0;
+            background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
             transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .article-recommendation {
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            border: 1px solid #0ea5e9;
-            border-radius: 12px;
-            padding: 15px;
-            margin-top: 10px;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #3b82f6;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .article-recommendation::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
         }
 
         .article-title {
-            font-weight: 600;
-            color: #0c4a6e;
-            margin-bottom: 5px;
+            font-weight: 700;
+            color: #1e40af;
+            margin-bottom: 8px;
+            font-size: 1.05rem;
         }
 
         .article-description {
             font-size: 0.9rem;
-            color: #075985;
-            margin-bottom: 8px;
+            color: #1e40af;
+            margin-bottom: 12px;
+            opacity: 0.9;
         }
 
         .article-level {
-            display: inline-block;
-            padding: 4px 8px;
-            background: #0ea5e9;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 500;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .status-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #10b981;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            z-index: 1000;
+        }
+
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(20px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         @keyframes typingDots {
-            0%, 60%, 100% { transform: scale(0.8); opacity: 0.5; }
-            30% { transform: scale(1); opacity: 1; }
+            0%, 60%, 100% { 
+                transform: scale(0.8); 
+                opacity: 0.5; 
+            }
+            30% { 
+                transform: scale(1.2); 
+                opacity: 1; 
+            }
         }
 
-        @media (max-width: 640px) {
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        @media (max-width: 768px) {
             .chatbot-container {
                 height: 100vh;
                 border-radius: 0;
+                max-width: 100%;
             }
             
             .level-selector {
                 flex-direction: column;
                 align-items: center;
+                gap: 8px;
+            }
+            
+            .level-btn {
+                width: 100%;
+                max-width: 200px;
+                justify-content: center;
             }
             
             .message-content {
                 max-width: 85%;
             }
+
+            .chat-input-container {
+                padding: 16px;
+            }
+
+            .chatbot-header {
+                padding: 20px;
+            }
+
+            .status-indicator {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chatbot-header h1 {
+                font-size: 1.4rem;
+            }
+
+            .message-avatar {
+                width: 40px;
+                height: 40px;
+            }
+
+            .chat-messages {
+                padding: 16px;
+            }
+        }
+
+        /* Scrollbar styling */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
         }
     </style>
 </head>
 <body>
     <div class="chatbot-container">
         <div class="chatbot-header">
-            <h1>🤖 Assistant IA Virtuel</h1>
-            <p>Votre guide personnalisé dans l'univers de l'Intelligence Artificielle</p>
-            <div class="level-selector">
-                <div class="level-btn active" data-level="debutant">👶 Débutant</div>
-                <div class="level-btn" data-level="intermediaire">🎓 Intermédiaire</div>
-                <div class="level-btn" data-level="avance">🚀 Avancé</div>
+            <div class="header-content">
+                <h1>
+                    <div class="logo-icon">🤖</div>
+                    Assistant IA - IActualité
+                </h1>
+                <p>🚀 Ton guide tech stylé et pratique dans l'univers de l'IA ! ✨</p>
+                <div class="level-selector">
+                    <div class="level-btn active" data-level="debutant">
+                        🤓 <span>Débutant</span>
+                    </div>
+                    <div class="level-btn" data-level="intermediaire">
+                        🎓 <span>Intermédiaire</span>
+                    </div>
+                    <div class="level-btn" data-level="avance">
+                        🚀 <span>Expert</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -306,12 +536,16 @@
             <div class="message">
                 <div class="message-avatar bot-avatar">🤖</div>
                 <div class="message-content bot-message">
-                    Bonjour ! Je suis votre assistant IA virtuel. Je suis là pour répondre à toutes vos questions sur l'Intelligence Artificielle et vous recommander des ressources adaptées à votre niveau. Comment puis-je vous aider aujourd'hui ?
+                    Salut ! 👋 Je suis ton assistant IA personnel d'<strong>IActualité</strong> ! 🎯
+                    <br><br>
+                    Je suis là pour t'accompagner dans ton aventure tech avec des explications stylées, des conseils pratiques et des recommandations d'articles qui collent parfaitement à ton niveau ! ✨
+                    <br><br>
+                    Alors, prêt(e) à explorer l'univers de l'IA ensemble ? 🚀
                     <div class="suggestions">
-                        <div class="suggestion-btn">Qu'est-ce que l'IA ?</div>
-                        <div class="suggestion-btn">Machine Learning vs Deep Learning</div>
-                        <div class="suggestion-btn">Applications pratiques de l'IA</div>
-                        <div class="suggestion-btn">Comment commencer en IA ?</div>
+                        <div class="suggestion-btn">🤔 Qu'est-ce que l'IA exactement ?</div>
+                        <div class="suggestion-btn">🆚 IA vs Machine Learning</div>
+                        <div class="suggestion-btn">📱 L'IA dans mon quotidien</div>
+                        <div class="suggestion-btn">🎯 Comment débuter en IA ?</div>
                     </div>
                 </div>
             </div>
@@ -319,22 +553,34 @@
 
         <div class="typing-indicator" id="typingIndicator">
             <div class="message-avatar bot-avatar">🤖</div>
-            <span>Assistant en train de réfléchir</span>
-            <div class="typing-dots">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
+            <div class="typing-content">
+                <span>Ton assistant réfléchit...</span>
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
             </div>
         </div>
 
         <div class="chat-input-container">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Posez votre question sur l'IA..." />
-            <button class="send-btn" id="sendBtn">Envoyer</button>
+            <div class="input-wrapper">
+                <textarea class="chat-input" id="chatInput" placeholder="💬 Pose ta question sur l'IA ici..." rows="1"></textarea>
+            </div>
+            <button class="send-btn" id="sendBtn">
+                <span>Envoyer</span>
+                <span>🚀</span>
+            </button>
         </div>
     </div>
 
+    <div class="status-indicator">
+        <div class="pulse"></div>
+        <span>Assistant en ligne</span>
+    </div>
+
     <script>
-        class AIAssistant {
+        class IAActualiteAssistant {
             constructor() {
                 this.currentLevel = 'debutant';
                 this.chatMessages = document.getElementById('chatMessages');
@@ -345,6 +591,7 @@
                 this.initializeEventListeners();
                 this.knowledgeBase = this.initializeKnowledgeBase();
                 this.articles = this.initializeArticles();
+                this.setupTextareaAutoResize();
             }
 
             initializeEventListeners() {
@@ -354,44 +601,56 @@
                         document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
                         btn.classList.add('active');
                         this.currentLevel = btn.dataset.level;
-                        this.addMessage(`Niveau changé vers : ${this.getLevelName()}`, 'bot');
+                        this.addMessage(`🎯 Parfait ! Niveau changé vers : ${this.getLevelName()} 
+                                        Maintenant je vais adapter mes réponses à ton niveau ! ✨`, 'bot');
                     });
                 });
 
                 // Envoi de message
                 this.sendBtn.addEventListener('click', () => this.sendMessage());
                 this.chatInput.addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') this.sendMessage();
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        this.sendMessage();
+                    }
                 });
 
                 // Suggestions cliquables
                 document.addEventListener('click', (e) => {
                     if (e.target.classList.contains('suggestion-btn')) {
-                        this.chatInput.value = e.target.textContent;
+                        const text = e.target.textContent.replace(/^[🤔🆚📱🎯]\s*/, '');
+                        this.chatInput.value = text;
                         this.sendMessage();
                     }
+                });
+            }
+
+            setupTextareaAutoResize() {
+                this.chatInput.addEventListener('input', () => {
+                    this.chatInput.style.height = 'auto';
+                    this.chatInput.style.height = Math.min(this.chatInput.scrollHeight, 120) + 'px';
                 });
             }
 
             initializeKnowledgeBase() {
                 return {
                     debutant: {
-                        "qu'est-ce que l'ia": "L'Intelligence Artificielle (IA) est une technologie qui permet aux machines de simuler l'intelligence humaine. C'est comme donner un cerveau à un ordinateur pour qu'il puisse apprendre, raisonner et prendre des décisions.",
-                        "machine learning": "Le Machine Learning est une méthode qui permet aux ordinateurs d'apprendre automatiquement à partir de données, comme un enfant qui apprend à reconnaître des formes.",
-                        "applications": "L'IA est présente partout : recommandations Netflix, assistants vocaux (Siri, Alexa), reconnaissance faciale sur les photos, traduction automatique, voitures autonomes.",
-                        "commencer": "Pour débuter en IA, je recommande d'abord de comprendre les concepts de base, puis d'apprendre Python, et enfin de suivre des cours en ligne comme ceux de Coursera ou edX."
+                        "qu'est-ce que l'ia": "🤖 L'Intelligence Artificielle, c'est comme donner un super cerveau à ton ordi ! En gros, c'est une technologie qui permet aux machines d'apprendre, de comprendre et de prendre des décisions, un peu comme nous les humains. Imagine ton smartphone qui reconnaît ta voix ou Netflix qui te propose tes séries préférées - c'est de l'IA ! ✨",
+                        "machine learning": "🎯 Le Machine Learning, c'est la façon dont l'IA apprend ! Pense à un enfant qui apprend à reconnaître un chat : il voit plein de photos de chats, et petit à petit, il comprend à quoi ressemble un chat. C'est pareil pour l'ordi, mais en version ultra-rapide ! 🚀",
+                        "applications": "📱 L'IA est partout dans ta vie ! Elle te suggère des vidéos sur TikTok, traduit tes messages, reconnaît ton visage sur tes photos, t'aide avec Siri ou Google Assistant, et même dans les voitures qui se conduisent toutes seules ! C'est fou, non ? 🤯",
+                        "commencer": "🎓 Pour débuter, pas de panique ! Commence par comprendre les bases, apprends Python (c'est le langage le plus cool pour l'IA), et regarde des tutos sur YouTube. Coursera et edX ont des cours gratuits géniaux ! Une étape à la fois ! 💪"
                     },
                     intermediaire: {
-                        "machine learning": "Le Machine Learning comprend plusieurs algorithmes : supervisé (avec données étiquetées), non supervisé (découverte de patterns), et par renforcement (apprentissage par récompenses/punitions).",
-                        "deep learning": "Le Deep Learning utilise des réseaux de neurones artificiels avec plusieurs couches cachées pour traiter des données complexes comme les images, le texte et l'audio.",
-                        "algorithmes": "Les principaux algorithmes incluent : régression linéaire/logistique, arbres de décision, SVM, k-means, réseaux de neurones, et algorithmes génétiques.",
-                        "frameworks": "TensorFlow, PyTorch, Scikit-learn, Keras sont les frameworks les plus utilisés pour développer des modèles d'IA."
+                        "machine learning": "🔬 Le ML se divise en 3 grandes familles : l'apprentissage supervisé (avec des données étiquetées), non supervisé (pour découvrir des patterns cachés), et par renforcement (apprentissage par essai-erreur avec récompenses). Chacun a ses propres algorithmes et cas d'usage ! 📊",
+                        "deep learning": "🧠 Le Deep Learning, c'est du ML avec des réseaux de neurones super profonds ! Ces réseaux imitent notre cerveau avec des couches interconnectées. Parfait pour traiter des trucs complexes comme les images (CNN), le texte (RNN/Transformers), ou l'audio ! 🎵",
+                        "algorithmes": "⚙️ Les classiques : régression linéaire/logistique, arbres de décision, Random Forest, SVM, k-means pour le clustering. Plus avancé : réseaux de neurones, LSTM pour les séquences, et les fameux Transformers (comme GPT) ! 🤖",
+                        "frameworks": "🛠️ TensorFlow et PyTorch dominent le game ! Scikit-learn pour débuter, Keras pour simplifier TensorFlow. Hugging Face pour les modèles pré-entraînés. FastAPI pour déployer tes modèles. Chaque outil a ses avantages ! ⚡"
                     },
                     avance: {
-                        "architectures": "Les architectures avancées incluent les Transformers (BERT, GPT), CNN (ResNet, VGG), RNN (LSTM, GRU), et GAN pour la génération de contenu.",
-                        "optimisation": "L'optimisation implique la régularisation (L1/L2), dropout, batch normalization, learning rate scheduling, et techniques d'ensemble.",
-                        "production": "Le déploiement en production nécessite la conteneurisation (Docker), orchestration (Kubernetes), monitoring des modèles, et pipelines MLOps.",
-                        "recherche": "Les domaines de recherche actuels : IA explicable, apprentissage fédéré, IA quantique, neuromorphique, et AGI."
+                        "architectures": "🏗️ Architectures de pointe : Transformers (BERT, GPT, T5), Vision Transformers (ViT), CNN avancés (ResNet, EfficientNet), RNN modernes (LSTM, GRU), GANs pour la génération, et les nouvelles architectures comme MobileNet pour l'edge computing ! 🚀",
+                        "optimisation": "📈 Techniques avancées : régularisation (L1/L2, dropout, batch norm), optimiseurs adaptatifs (Adam, AdamW), learning rate scheduling, gradient clipping, mixed precision training, et techniques d'ensemble. L'art du fine-tuning ! ⚡",
+                        "production": "🏭 MLOps full stack : conteneurisation Docker, orchestration Kubernetes, pipelines CI/CD, monitoring avec MLflow/Weights&Biases, versioning des données (DVC), serving avec TensorFlow Serving/Triton, et observabilité en production ! 📊",
+                        "recherche": "🔬 Cutting-edge research : IA explicable (XAI), apprentissage fédéré, IA quantique, neuromorphic computing, meta-learning, few-shot learning, et la quête de l'AGI. Le futur se dessine maintenant ! 🌟"
                     }
                 };
             }
@@ -399,28 +658,31 @@
             initializeArticles() {
                 return {
                     debutant: [
-                        { title: "Introduction à l'IA pour tous", description: "Guide complet pour comprendre l'IA sans prérequis techniques", level: "Débutant" },
-                        { title: "L'IA dans la vie quotidienne", description: "Découvrez comment l'IA vous aide chaque jour", level: "Débutant" },
-                        { title: "Premiers pas en Python pour l'IA", description: "Tutoriel pour débuter la programmation IA", level: "Débutant" }
+                        { title: "🤓 IA pour les Nuls : Guide Complet", description: "Tout comprendre sur l'IA sans se prendre la tête", level: "Débutant" },
+                        { title: "📱 L'IA dans Ton Quotidien", description: "Découvre comment l'IA t'aide chaque jour sans que tu le saches", level: "Débutant" },
+                        { title: "🐍 Python : Ton Premier Pas vers l'IA", description: "Apprends Python facilement pour faire de l'IA", level: "Débutant" },
+                        { title: "🎯 ChatGPT & Co : Mode d'Emploi", description: "Maîtrise les IA conversationnelles comme un pro", level: "Débutant" }
                     ],
                     intermediaire: [
-                        { title: "Algorithmes de Machine Learning", description: "Comparaison détaillée des principaux algorithmes", level: "Intermédiaire" },
-                        { title: "Traitement d'images avec OpenCV", description: "Projet pratique de vision par ordinateur", level: "Intermédiaire" },
-                        { title: "Réseaux de neurones avec TensorFlow", description: "Construction de votre premier réseau neuronal", level: "Intermédiaire" }
+                        { title: "🧠 Machine Learning : Les Algo Essentiels", description: "Comparatif détaillé des algorithmes qui comptent", level: "Intermédiaire" },
+                        { title: "👁️ Vision par Ordinateur avec OpenCV", description: "Projet pratique : créer une IA qui voit", level: "Intermédiaire" },
+                        { title: "⚡ TensorFlow vs PyTorch : Le Match", description: "Quel framework choisir pour tes projets IA ?", level: "Intermédiaire" },
+                        { title: "📊 Data Science : Clean tes Données comme un Chef", description: "Les techniques pros pour préparer tes datasets", level: "Intermédiaire" }
                     ],
                     avance: [
-                        { title: "Architectures Transformer", description: "Comprendre BERT, GPT et leurs variations", level: "Avancé" },
-                        { title: "MLOps et déploiement de modèles", description: "Guide complet pour la mise en production", level: "Avancé" },
-                        { title: "IA générative et GAN", description: "Création de contenu avec l'intelligence artificielle", level: "Avancé" }
+                        { title: "🚀 Transformers : L'Architecture qui Change Tout", description: "Deep dive dans BERT, GPT et leurs évolutions", level: "Expert" },
+                        { title: "🏭 MLOps : De l'Idée à la Production", description: "Pipeline complet pour déployer tes modèles à l'échelle", level: "Expert" },
+                        { title: "🎨 GANs & IA Générative", description: "Créer du contenu avec l'intelligence artificielle", level: "Expert" },
+                        { title: "🔬 Recherche IA 2025 : Les Tendances", description: "Ce qui va révolutionner l'IA dans les prochaines années", level: "Expert" }
                     ]
                 };
             }
 
             getLevelName() {
                 const names = {
-                    'debutant': 'Débutant 👶',
+                    'debutant': 'Débutant 🤓',
                     'intermediaire': 'Intermédiaire 🎓',
-                    'avance': 'Avancé 🚀'
+                    'avance': 'Expert 🚀'
                 };
                 return names[this.currentLevel];
             }
@@ -431,10 +693,11 @@
 
                 this.addMessage(message, 'user');
                 this.chatInput.value = '';
+                this.chatInput.style.height = 'auto';
                 this.showTyping();
 
                 // Simulation d'un délai de réflexion
-                await this.delay(1500);
+                await this.delay(1800);
                 
                 const response = this.generateResponse(message);
                 this.hideTyping();
@@ -442,7 +705,7 @@
                 
                 // Recommandation d'articles
                 if (this.shouldRecommendArticle(message)) {
-                    await this.delay(800);
+                    await this.delay(1000);
                     this.addArticleRecommendation();
                 }
             }
@@ -458,21 +721,36 @@
                     }
                 }
 
-                // Réponses génériques basées sur les mots-clés
-                if (lowerMessage.includes('bonjour') || lowerMessage.includes('salut')) {
-                    return `Bonjour ! Ravi de vous retrouver. Vous êtes actuellement en mode ${this.getLevelName()}. Que souhaitez-vous apprendre sur l'IA aujourd'hui ?`;
+                // Réponses contextuelles avec le style IActualité
+                if (lowerMessage.includes('bonjour') || lowerMessage.includes('salut') || lowerMessage.includes('hello')) {
+                    return `Hey ! 👋 Super de te voir ici ! Tu es en mode ${this.getLevelName()} - parfait pour ton niveau ! Alors, qu'est-ce qui t'intrigue dans le monde de l'IA aujourd'hui ? 🚀✨`;
                 }
 
                 if (lowerMessage.includes('aide') || lowerMessage.includes('help')) {
-                    return `Je peux vous aider avec de nombreux sujets sur l'IA adaptés à votre niveau ${this.getLevelName()} : concepts fondamentaux, algorithmes, applications pratiques, outils de développement, et bien plus encore !`;
+                    return `🤝 Pas de souci ! Je suis ton guide tech personnel ! Pour ton niveau ${this.getLevelName()}, je peux t'éclairer sur : les concepts IA, les outils pratiques, les projets à faire, les carrières tech, et plein d'autres trucs stylés ! Fire tes questions ! 🎯`;
                 }
 
                 if (lowerMessage.includes('merci')) {
-                    return "Je vous en prie ! N'hésitez pas si vous avez d'autres questions sur l'IA. Je suis là pour vous accompagner dans votre apprentissage !";
+                    return "🙏 Avec plaisir ! C'est ça l'esprit IActualité : du partage, de l'entraide et de la tech accessible ! Continue à explorer, tu assures ! 💪✨";
                 }
 
-                // Réponse par défaut avec suggestions
-                return `Question intéressante ! Pour votre niveau ${this.getLevelName()}, je vous suggère d'être plus précis. Voulez-vous en savoir plus sur les concepts de base, les applications pratiques, ou les aspects techniques de l'IA ?`;
+                if (lowerMessage.includes('openai') || lowerMessage.includes('chatgpt')) {
+                    const responses = {
+                        debutant: "🔥 ChatGPT, c'est le rockstar des IA ! Créé par OpenAI, c'est un assistant conversationnel ultra-intelligent qui peut écrire, coder, expliquer, traduire... Un vrai couteau suisse numérique ! Gratuit pour débuter, et ça vaut le coup d'essayer ! ✨",
+                        intermediaire: "⚡ OpenAI a révolutionné le game avec ChatGPT (basé sur GPT-3.5/4) ! Architecture Transformer, fine-tuning RLHF, et une API géniale pour intégrer l'IA dans tes projets. Le modèle business freemium est malin : gratuit pour tester, payant pour la puissance ! 🚀",
+                        avance: "🧠 OpenAI masterclass : GPT-4 avec 175B+ paramètres, architecture Transformer optimisée, RLHF pour l'alignement humain, et des techniques de prompt engineering avancées. Leur stack : PyTorch, infrastructures cloud massives, et R&D de pointe vers l'AGI ! 🔬"
+                    };
+                    return responses[this.currentLevel];
+                }
+
+                // Réponses par défaut stylées IActualité
+                const defaultResponses = {
+                    debutant: `🤔 Question intéressante ! En mode ${this.getLevelName()}, je te suggère d'être un peu plus précis pour que je puisse te donner une réponse qui déchire ! Tu veux en savoir plus sur quoi exactement : les bases de l'IA, les applis cool, ou comment commencer à coder ? 🎯`,
+                    intermediaire: `💡 Bonne question ! Pour ton niveau ${this.getLevelName()}, précise un peu ton besoin : tu cherches des infos sur les algorithmes, les frameworks, un projet concret, ou les aspects business de l'IA ? Je vais te sortir une réponse technique qui tue ! ⚡`,
+                    avance: `🔬 Excellente question ! En mode ${this.getLevelName()}, tu peux être plus spécifique : recherche académique, architectures avancées, optimisation de modèles, déploiement en prod, ou innovations récentes ? Je vais te balancer du contenu de haut niveau ! 🚀`
+                };
+
+                return defaultResponses[this.currentLevel];
             }
 
             fuzzyMatch(text, keyword) {
@@ -481,7 +759,7 @@
             }
 
             shouldRecommendArticle(message) {
-                const triggers = ['apprendre', 'cours', 'tutoriel', 'guide', 'commencer', 'débuter', 'approfondir'];
+                const triggers = ['apprendre', 'cours', 'tutoriel', 'guide', 'commencer', 'débuter', 'approfondir', 'article', 'lire', 'ressource'];
                 return triggers.some(trigger => message.toLowerCase().includes(trigger));
             }
 
@@ -491,11 +769,11 @@
 
                 const avatar = document.createElement('div');
                 avatar.className = `message-avatar ${sender}-avatar`;
-                avatar.textContent = sender === 'user' ? '👤' : '🤖';
+                avatar.innerHTML = sender === 'user' ? '😎' : '🤖';
 
                 const messageContent = document.createElement('div');
                 messageContent.className = `message-content ${sender}-message`;
-                messageContent.textContent = content;
+                messageContent.innerHTML = content.replace(/\n/g, '<br>');
 
                 if (sender === 'bot') {
                     this.addSuggestionsToMessage(messageContent, content);
@@ -526,9 +804,9 @@
 
             getSuggestions(content) {
                 const levelSuggestions = {
-                    debutant: ['Types d\'IA', 'Avantages et risques', 'Métiers de l\'IA', 'Outils gratuits'],
-                    intermediaire: ['Projets pratiques', 'Datasets populaires', 'Éthique en IA', 'Optimisation'],
-                    avance: ['Recherche actuelle', 'Publications scientifiques', 'Benchmarks', 'Architecture GPU']
+                    debutant: ['🎨 IA créative', '💼 Métiers de l\'IA', '🔒 IA et vie privée', '🎮 IA dans les jeux'],
+                    intermediaire: ['📊 Datasets populaires', '🔧 Projets GitHub', '📚 Certifications IA', '⚡ Optimiser les modèles'],
+                    avance: ['📄 Papers récents', '🏆 Benchmarks SOTA', '🔬 Recherche 2025', '🏭 MLOps avancé']
                 };
                 
                 return levelSuggestions[this.currentLevel] || [];
@@ -543,17 +821,18 @@
 
                 const avatar = document.createElement('div');
                 avatar.className = 'message-avatar bot-avatar';
-                avatar.textContent = '📚';
+                avatar.innerHTML = '📚';
 
                 const messageContent = document.createElement('div');
                 messageContent.className = 'message-content bot-message';
                 messageContent.innerHTML = `
-                    <strong>📖 Recommandation d'article</strong>
+                    <strong>✨ Recommandation IActualité</strong>
                     <div class="article-recommendation">
                         <div class="article-title">${randomArticle.title}</div>
                         <div class="article-description">${randomArticle.description}</div>
-                        <div class="article-level">${randomArticle.level}</div>
+                        <div class="article-level">📖 ${randomArticle.level}</div>
                     </div>
+                    <small style="color: #64748b; font-style: italic;">💡 Article parfaitement adapté à ton niveau !</small>
                 `;
 
                 messageDiv.appendChild(avatar);
@@ -580,9 +859,9 @@
             }
         }
 
-        // Initialisation du chatbot
+        // Initialisation du chatbot IActualité
         document.addEventListener('DOMContentLoaded', () => {
-            new AIAssistant();
+            new IAActualiteAssistant();
         });
     </script>
 </body>
